@@ -408,10 +408,8 @@ git push origin feature/AmazingFeature
 
 ### 加入讨论
 
-- **GitHub Discussions** - [参与讨论](https://github.com/yourusername/YuyuanWaf/discussions)
 - **Issues** - [报告问题](https://github.com/yourusername/YuyuanWaf/issues)
-- **微信群** - 扫描下方二维码加入（待添加）
-- **邮件列表** - community@yuyuanwaf.org
+- **邮件列表** - lampxiezi@gmail.com
 
 ### 贡献者
 
