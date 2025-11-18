@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>访问被拦截 - 御渊WAF</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+        
+        h1 {
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+        
+        .message {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .reason {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #856404;
+            font-weight: bold;
+        }
+        
+        .details {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .details-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #dee2e6;
+            font-size: 14px;
+        }
+        
+        .details-row:last-child {
+            border-bottom: none;
+        }
+        
+        .details-label {
+            color: #6c757d;
+            font-weight: bold;
+        }
+        
+        .details-value {
+            color: #343a40;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            font-size: 13px;
+            color: #999;
+        }
+        
+        .logo {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #667eea;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .icon {
+                font-size: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🛡️</div>
+        <h1>访问被拦截</h1>
+        <div class="message">
+            <p>您的请求已被 <strong>御渊WAF</strong> 安全防护系统拦截。</p>
+            <p>系统检测到您的访问可能存在安全风险。</p>
+        </div>
+        
+        <div class="reason">
+            ⚠️ 拦截原因：{{reason}}
+        </div>
+        
+        <div class="details">
+            <div class="details-row">
+                <span class="details-label">请求ID：</span>
+                <span class="details-value">{{request_id}}</span>
+            </div>
+            <div class="details-row">
+                <span class="details-label">规则ID：</span>
+                <span class="details-value">{{rule_id}}</span>
+            </div>
+            <div class="details-row">
+                <span class="details-label">时间：</span>
+                <span class="details-value">{{time}}</span>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>如果您认为这是误报，请联系网站管理员</p>
+            <p>并提供上述请求ID以便查询</p>
+        </div>
+        
+        <div class="logo">御渊WAF · YuyuanWaf</div>
+    </div>
+</body>
+</html>
+

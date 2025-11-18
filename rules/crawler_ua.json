@@ -1,0 +1,157 @@
+{
+  "version": "1.0.0",
+  "description": "爬虫User-Agent特征库",
+  "last_updated": "2025-11-18",
+  "categories": {
+    "tools": {
+      "description": "命令行工具和脚本",
+      "patterns": [
+        {"pattern": "curl", "risk_level": "high"},
+        {"pattern": "wget", "risk_level": "high"},
+        {"pattern": "axios", "risk_level": "high"},
+        {"pattern": "httpie", "risk_level": "medium"},
+        {"pattern": "http-client", "risk_level": "high"},
+        {"pattern": "httpclient", "risk_level": "high"}
+      ]
+    },
+    "programming_languages": {
+      "description": "编程语言HTTP客户端",
+      "patterns": [
+        {"pattern": "python-requests", "risk_level": "high"},
+        {"pattern": "python-urllib", "risk_level": "high"},
+        {"pattern": "python-httpx", "risk_level": "high"},
+        {"pattern": "python/", "risk_level": "medium"},
+        {"pattern": "java/", "risk_level": "medium"},
+        {"pattern": "okhttp", "risk_level": "high"},
+        {"pattern": "apache-httpclient", "risk_level": "high"},
+        {"pattern": "go-http-client", "risk_level": "high"},
+        {"pattern": "ruby/", "risk_level": "medium"},
+        {"pattern": "perl/", "risk_level": "medium"},
+        {"pattern": "php/", "risk_level": "medium"},
+        {"pattern": "node-fetch", "risk_level": "high"},
+        {"pattern": "got/", "risk_level": "high"},
+        {"pattern": "fetch-api", "risk_level": "medium"}
+      ]
+    },
+    "frameworks": {
+      "description": "爬虫框架",
+      "patterns": [
+        {"pattern": "scrapy", "risk_level": "critical"},
+        {"pattern": "mechanize", "risk_level": "high"},
+        {"pattern": "beautifulsoup", "risk_level": "high"},
+        {"pattern": "selenium", "risk_level": "critical"},
+        {"pattern": "puppeteer", "risk_level": "critical"},
+        {"pattern": "playwright", "risk_level": "critical"},
+        {"pattern": "phantomjs", "risk_level": "critical"},
+        {"pattern": "headless", "risk_level": "critical"},
+        {"pattern": "webdriver", "risk_level": "critical"},
+        {"pattern": "colly", "risk_level": "high"},
+        {"pattern": "gocolly", "risk_level": "high"}
+      ]
+    },
+    "crawlers": {
+      "description": "通用爬虫标识",
+      "patterns": [
+        {"pattern": "spider", "risk_level": "high"},
+        {"pattern": "crawler", "risk_level": "high"},
+        {"pattern": "scraper", "risk_level": "high"},
+        {"pattern": "bot", "risk_level": "medium"},
+        {"pattern": "crawl", "risk_level": "high"},
+        {"pattern": "scrape", "risk_level": "high"},
+        {"pattern": "harvest", "risk_level": "high"},
+        {"pattern": "extract", "risk_level": "medium"}
+      ]
+    },
+    "seo_tools": {
+      "description": "SEO工具",
+      "patterns": [
+        {"pattern": "ahrefsbot", "risk_level": "medium"},
+        {"pattern": "semrushbot", "risk_level": "medium"},
+        {"pattern": "dotbot", "risk_level": "medium"},
+        {"pattern": "mj12bot", "risk_level": "medium"},
+        {"pattern": "blexbot", "risk_level": "medium"},
+        {"pattern": "screaming frog", "risk_level": "medium"}
+      ]
+    },
+    "malicious": {
+      "description": "恶意爬虫",
+      "patterns": [
+        {"pattern": "masscan", "risk_level": "critical"},
+        {"pattern": "nmap", "risk_level": "critical"},
+        {"pattern": "nikto", "risk_level": "critical"},
+        {"pattern": "sqlmap", "risk_level": "critical"},
+        {"pattern": "havij", "risk_level": "critical"},
+        {"pattern": "metasploit", "risk_level": "critical"},
+        {"pattern": "nessus", "risk_level": "critical"},
+        {"pattern": "openvas", "risk_level": "critical"},
+        {"pattern": "acunetix", "risk_level": "critical"},
+        {"pattern": "netsparker", "risk_level": "critical"},
+        {"pattern": "burp", "risk_level": "critical"},
+        {"pattern": "zaproxy", "risk_level": "critical"}
+      ]
+    },
+    "download_managers": {
+      "description": "下载工具",
+      "patterns": [
+        {"pattern": "download", "risk_level": "medium"},
+        {"pattern": "downloader", "risk_level": "medium"},
+        {"pattern": "aria2", "risk_level": "medium"},
+        {"pattern": "fdm", "risk_level": "medium"},
+        {"pattern": "orbit", "risk_level": "medium"}
+      ]
+    },
+    "feed_readers": {
+      "description": "RSS阅读器",
+      "patterns": [
+        {"pattern": "feedfetcher", "risk_level": "low"},
+        {"pattern": "feedly", "risk_level": "low"},
+        {"pattern": "rssreader", "risk_level": "low"},
+        {"pattern": "aggregator", "risk_level": "low"}
+      ]
+    },
+    "monitoring": {
+      "description": "监控工具",
+      "patterns": [
+        {"pattern": "pingdom", "risk_level": "low"},
+        {"pattern": "uptimerobot", "risk_level": "low"},
+        {"pattern": "monitor", "risk_level": "low"},
+        {"pattern": "nagios", "risk_level": "low"},
+        {"pattern": "zabbix", "risk_level": "low"}
+      ]
+    },
+    "suspicious": {
+      "description": "可疑特征",
+      "patterns": [
+        {"pattern": "test", "risk_level": "medium"},
+        {"pattern": "scanner", "risk_level": "high"},
+        {"pattern": "probe", "risk_level": "high"},
+        {"pattern": "check", "risk_level": "low"},
+        {"pattern": "benchmark", "risk_level": "medium"},
+        {"pattern": "api", "risk_level": "low"}
+      ]
+    }
+  },
+  "risk_levels": {
+    "critical": {
+      "score": 100,
+      "action": "block",
+      "description": "高危爬虫或攻击工具，立即拦截"
+    },
+    "high": {
+      "score": 80,
+      "action": "challenge",
+      "description": "高风险爬虫，要求验证"
+    },
+    "medium": {
+      "score": 50,
+      "action": "log",
+      "description": "中等风险，记录日志"
+    },
+    "low": {
+      "score": 20,
+      "action": "allow",
+      "description": "低风险，允许访问"
+    }
+  }
+}
+

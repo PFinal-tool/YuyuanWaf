@@ -1,0 +1,118 @@
+# ============================================================================
+# 御渊WAF - Nginx完整配置示例
+# ============================================================================
+
+user  nobody;
+worker_processes  auto;
+
+error_log  logs/error.log  info;
+pid        logs/nginx.pid;
+
+events {
+    worker_connections  10240;
+    use epoll;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  logs/access.log  main;
+
+    sendfile        on;
+    tcp_nopush     on;
+    tcp_nodelay    on;
+
+    keepalive_timeout  65;
+
+    gzip  on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml+rss application/json;
+
+    # ========================================================================
+    # 包含WAF配置
+    # ========================================================================
+    include /Users/pfinal/YuyuanWaf/conf/waf.conf;
+
+    # ========================================================================
+    # 后端服务器
+    # ========================================================================
+    upstream backend {
+        server 127.0.0.1:8080;
+        # 可以添加更多后端服务器
+        # server 127.0.0.1:8081;
+    }
+
+    # ========================================================================
+    # 主站配置
+    # ========================================================================
+    server {
+        listen       80;
+        server_name  localhost;
+
+        # 字符集
+        charset utf-8;
+
+        # WAF访问控制
+        access_by_lua_block {
+            waf.run()
+        }
+
+        # 主页
+        location / {
+            proxy_pass http://backend;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        # WAF静态资源
+        location /waf-assets/ {
+            alias /Users/pfinal/YuyuanWaf/html/assets/;
+        }
+
+        # 健康检查 (白名单URI)
+        location = /health {
+            access_log off;
+            return 200 "OK\n";
+        }
+
+        # 错误页面
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+
+    # ========================================================================
+    # WAF管理后台 (可选，生产环境建议使用独立域名和认证)
+    # ========================================================================
+    # server {
+    #     listen       8888;
+    #     server_name  localhost;
+    #     
+    #     location / {
+    #         root   /Users/pfinal/YuyuanWaf/dashboard;
+    #         index  index.html;
+    #     }
+    #     
+    #     # WAF API
+    #     location /api/ {
+    #         access_by_lua_block {
+    #             -- 添加API认证
+    #         }
+    #         
+    #         content_by_lua_block {
+    #             local dashboard = require "api.dashboard"
+    #             dashboard.handle()
+    #         }
+    #     }
+    # }
+}
+

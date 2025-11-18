@@ -1,0 +1,60 @@
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# 文档
+*.md
+!README.md
+docs/
+examples/
+
+# 测试
+tests/
+*.test.lua
+
+# 开发文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 日志和临时文件
+logs/*.log
+*.log
+*.tmp
+*.bak
+
+# 构建产物
+dist/
+build/
+*.tar.gz
+*.zip
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Node.js
+node_modules/
+npm-debug.log
+
+# 敏感文件
+.env
+.env.*
+secrets/
+*.key
+*.pem
+*.crt
+

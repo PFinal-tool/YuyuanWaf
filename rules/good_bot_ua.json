@@ -1,0 +1,242 @@
+{
+  "version": "1.0.0",
+  "description": "合法爬虫User-Agent白名单",
+  "last_updated": "2025-11-18",
+  "bots": [
+    {
+      "name": "Googlebot",
+      "category": "search_engine",
+      "vendor": "Google",
+      "patterns": [
+        "Googlebot",
+        "Google-InspectionTool",
+        "Googlebot-Image",
+        "Googlebot-News",
+        "Googlebot-Video",
+        "Google-Structured-Data-Testing-Tool",
+        "Google-Site-Verification",
+        "Google-Read-Aloud",
+        "Storebot-Google"
+      ],
+      "verify_ip": true,
+      "ip_ranges": [
+        "66.249.64.0/19",
+        "64.233.160.0/19",
+        "72.14.192.0/18",
+        "203.208.32.0/19",
+        "209.85.128.0/17",
+        "216.239.32.0/19"
+      ]
+    },
+    {
+      "name": "Bingbot",
+      "category": "search_engine",
+      "vendor": "Microsoft",
+      "patterns": [
+        "bingbot",
+        "BingPreview",
+        "msnbot",
+        "msnbot-media",
+        "AdIdxBot"
+      ],
+      "verify_ip": true,
+      "ip_ranges": [
+        "40.77.167.0/24",
+        "157.55.39.0/24",
+        "207.46.13.0/24"
+      ]
+    },
+    {
+      "name": "Slurp",
+      "category": "search_engine",
+      "vendor": "Yahoo",
+      "patterns": [
+        "Slurp",
+        "Yahoo! Slurp"
+      ],
+      "verify_ip": false
+    },
+    {
+      "name": "DuckDuckBot",
+      "category": "search_engine",
+      "vendor": "DuckDuckGo",
+      "patterns": [
+        "DuckDuckBot",
+        "DuckDuckGo-Favicons-Bot"
+      ],
+      "verify_ip": false
+    },
+    {
+      "name": "Baiduspider",
+      "category": "search_engine",
+      "vendor": "Baidu",
+      "patterns": [
+        "Baiduspider",
+        "Baiduspider-image",
+        "Baiduspider-video",
+        "Baiduspider-news"
+      ],
+      "verify_ip": false
+    },
+    {
+      "name": "YandexBot",
+      "category": "search_engine",
+      "vendor": "Yandex",
+      "patterns": [
+        "YandexBot",
+        "YandexImages",
+        "YandexVideo",
+        "YandexNews"
+      ],
+      "verify_ip": false
+    },
+    {
+      "name": "Sogou",
+      "category": "search_engine",
+      "vendor": "Sogou",
+      "patterns": [
+        "Sogou web spider",
+        "Sogou News Spider",
+        "Sogou Pic Spider"
+      ],
+      "verify_ip": false
+    },
+    {
+      "name": "360Spider",
+      "category": "search_engine",
+      "vendor": "360",
+      "patterns": [
+        "360Spider"
+      ],
+      "verify_ip": false
+    },
+    {
+      "name": "FacebookBot",
+      "category": "social_media",
+      "vendor": "Meta",
+      "patterns": [
+        "facebookexternalhit",
+        "Facebot",
+        "FacebookBot"
+      ],
+      "verify_ip": false
+    },
+    {
+      "name": "TwitterBot",
+      "category": "social_media",
+      "vendor": "Twitter",
+      "patterns": [
+        "Twitterbot"
+      ],
+      "verify_ip": false
+    },
+    {
+      "name": "LinkedInBot",
+      "category": "social_media",
+      "vendor": "LinkedIn",
+      "patterns": [
+        "LinkedInBot"
+      ],
+      "verify_ip": false
+    },
+    {
+      "name": "TelegramBot",
+      "category": "social_media",
+      "vendor": "Telegram",
+      "patterns": [
+        "TelegramBot"
+      ],
+      "verify_ip": false
+    },
+    {
+      "name": "WhatsApp",
+      "category": "social_media",
+      "vendor": "Meta",
+      "patterns": [
+        "WhatsApp"
+      ],
+      "verify_ip": false
+    },
+    {
+      "name": "Applebot",
+      "category": "search_engine",
+      "vendor": "Apple",
+      "patterns": [
+        "Applebot"
+      ],
+      "verify_ip": false
+    },
+    {
+      "name": "AhrefsBot",
+      "category": "seo_tool",
+      "vendor": "Ahrefs",
+      "patterns": [
+        "AhrefsBot"
+      ],
+      "verify_ip": false,
+      "allow_by_default": false
+    },
+    {
+      "name": "SemrushBot",
+      "category": "seo_tool",
+      "vendor": "Semrush",
+      "patterns": [
+        "SemrushBot"
+      ],
+      "verify_ip": false,
+      "allow_by_default": false
+    },
+    {
+      "name": "MJ12bot",
+      "category": "seo_tool",
+      "vendor": "Majestic",
+      "patterns": [
+        "MJ12bot"
+      ],
+      "verify_ip": false,
+      "allow_by_default": false
+    },
+    {
+      "name": "PingdomBot",
+      "category": "monitoring",
+      "vendor": "Pingdom",
+      "patterns": [
+        "Pingdom.com_bot"
+      ],
+      "verify_ip": false
+    },
+    {
+      "name": "UptimeRobot",
+      "category": "monitoring",
+      "vendor": "UptimeRobot",
+      "patterns": [
+        "UptimeRobot"
+      ],
+      "verify_ip": false
+    }
+  ],
+  "categories": {
+    "search_engine": {
+      "description": "搜索引擎爬虫",
+      "allow_by_default": true,
+      "priority": 1
+    },
+    "social_media": {
+      "description": "社交媒体爬虫",
+      "allow_by_default": true,
+      "priority": 2
+    },
+    "monitoring": {
+      "description": "监控工具",
+      "allow_by_default": true,
+      "priority": 3
+    },
+    "seo_tool": {
+      "description": "SEO工具",
+      "allow_by_default": false,
+      "priority": 4,
+      "note": "默认不允许，可在配置中启用"
+    }
+  }
+}
+

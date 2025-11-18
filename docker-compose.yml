@@ -1,0 +1,123 @@
+version: '3.8'
+
+services:
+  # ========================================
+  # 御渊WAF服务
+  # ========================================
+  waf:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: yuyuan-waf
+    restart: unless-stopped
+    
+    # 端口映射
+    ports:
+      - "80:80"
+      - "443:443"
+    
+    # 卷挂载
+    volumes:
+      # 配置文件
+      - ./conf/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
+      - ./conf/waf.conf:/usr/local/openresty/nginx/conf/waf.conf:ro
+      - ./lua:/var/www/html/YuyuanWaf/lua:ro
+      - ./rules:/var/www/html/YuyuanWaf/rules:ro
+      - ./html:/var/www/html/YuyuanWaf/html:ro
+      
+      # 日志目录（可写）
+      - ./logs:/var/www/html/YuyuanWaf/logs
+      
+      # 数据目录（可选）
+      - ./data:/var/www/html/YuyuanWaf/data:ro
+      
+      # 网站内容（根据实际情况修改）
+      # - /path/to/your/website:/var/www/html/website:ro
+    
+    # 环境变量
+    environment:
+      - TZ=Asia/Shanghai
+      - WAF_MODE=protection        # off, detection, protection
+      - WAF_LOG_LEVEL=warn
+    
+    # 资源限制
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    
+    # 健康检查
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/api/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    
+    # 网络
+    networks:
+      - waf-network
+    
+    # 日志配置
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ========================================
+  # Redis (可选 - 用于集群部署)
+  # ========================================
+  redis:
+    image: redis:7-alpine
+    container_name: yuyuan-waf-redis
+    restart: unless-stopped
+    
+    # 端口（仅内部访问）
+    # ports:
+    #   - "6379:6379"
+    
+    # 持久化
+    volumes:
+      - redis-data:/data
+    
+    # 配置
+    command: >
+      redis-server
+      --appendonly yes
+      --requirepass your_redis_password
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+    
+    # 网络
+    networks:
+      - waf-network
+    
+    # 健康检查
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+# ========================================
+# 网络配置
+# ========================================
+networks:
+  waf-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# ========================================
+# 卷配置
+# ========================================
+volumes:
+  redis-data:
+    driver: local
+

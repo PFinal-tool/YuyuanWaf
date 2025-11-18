@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>验证码验证 - 御渊WAF</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .message {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .captcha-box {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .captcha-image {
+            width: 100%;
+            max-width: 300px;
+            height: 80px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 10px;
+            color: #667eea;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        .refresh-btn {
+            background: #6c757d;
+            margin-top: 10px;
+        }
+        
+        .logo {
+            margin-top: 30px;
+            font-weight: bold;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🤖</div>
+        <h1>验证码验证</h1>
+        <div class="message">
+            为了确保您不是机器人，请输入下方验证码
+        </div>
+        
+        <div class="captcha-box">
+            <div class="captcha-image" id="captcha">ABCD</div>
+            <input type="text" id="captcha-input" placeholder="请输入验证码" maxlength="4" />
+            <button onclick="submitCaptcha()">提交验证</button>
+            <button class="refresh-btn" onclick="refreshCaptcha()">刷新验证码</button>
+        </div>
+        
+        <div class="logo">御渊WAF · YuyuanWaf</div>
+    </div>
+    
+    <script>
+        var captchaText = '';
+        
+        function generateCaptcha() {
+            var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            captchaText = '';
+            for (var i = 0; i < 4; i++) {
+                captchaText += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('captcha').textContent = captchaText;
+        }
+        
+        function refreshCaptcha() {
+            generateCaptcha();
+            document.getElementById('captcha-input').value = '';
+        }
+        
+        function submitCaptcha() {
+            var input = document.getElementById('captcha-input').value.toUpperCase();
+            
+            if (!input) {
+                alert('请输入验证码');
+                return;
+            }
+            
+            if (input === captchaText) {
+                document.cookie = 'waf_captcha_verified=1; path=/; max-age=3600';
+                alert('验证成功！');
+                window.location.reload();
+            } else {
+                alert('验证码错误，请重试');
+                refreshCaptcha();
+            }
+        }
+        
+        window.onload = function() {
+            generateCaptcha();
+            document.getElementById('captcha-input').focus();
+        };
+    </script>
+</body>
+</html>
+

